@@ -11,7 +11,7 @@ jobs:
         permissions: 
             contents: 'read'
             id-token: 'write'
-        
+
         steps:
             - name: checkout my code
               uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
               uses: 'google-github-actions/auth@v1'
               with:
                   token_format: 'access_token'
-                  workload_identity_provider: 'projects/582799354522/locations/global/workloadIdentityPools/mypoolid-5/providers/myproviderid-5'
+                  workload_identity_provider: 'projects/582799354522/locations/global/workloadIdentityPools/mypoolid-6/providers/myproviderid-6'
                   service_account: side-pocs-sa@plated-hash-405319.iam.gserviceaccount.com 
 
             - name: 'setup my cloud sdk'
@@ -32,4 +32,3 @@ jobs:
                 cd wf-4-bq-with-schema/terraform
                 terraform init
                 terraform apply -auto-approve
-                
