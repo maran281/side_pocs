@@ -38,4 +38,3 @@ resource "google_bigquery_table" "bq_table_4_wf_4_bq_with_schema" {
     type = "DAY"
   }
 }
-
