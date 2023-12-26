@@ -28,9 +28,7 @@ jobs:
               uses: 'google-github-actions/setup-gcloud@v1'
 
             - name: 'initialize terraform'
-              uses: |
+              run: |
                 cd terraform
                 terraform init
                 terraform apply -auto-approve
-                
-    
