@@ -1,0 +1,36 @@
+name: "Creating BQ using a schema file"
+
+on:
+    push: 
+        branches:
+            - main
+
+jobs:
+    deploy_my_bq:
+        runs-on: ubuntu-latest
+        permissions: 
+            contents: 'read'
+            id-token: 'write'
+        
+        steps:
+            - name: checkout my code
+              uses: actions/checkout@v3
+
+            - id: 'auth'
+              name: 'authenticating my google project'
+              uses: 'google-github-actions/auth@v1'
+              with:
+                  token_format: 'access_token'
+                  workload_identity_provider: 'projects/582799354522/locations/global/workloadIdentityPools/mypoolid-5/providers/myproviderid-5'
+                  service_account: side-pocs-sa@plated-hash-405319.iam.gserviceaccount.com 
+
+            - name: 'setup my cloud sdk'
+              uses: 'google-github-actions/setup-gcloud@v1'
+
+            - name: 'initialize terraform'
+              uses: |
+                cd terraform
+                terraform init
+                terraform apply -auto-approve
+                
+    
