@@ -27,7 +27,7 @@ resource "google_bigquery_dataset" "bq_dataset_4_wf_4_bq_with_schema" {
 resource "google_bigquery_table" "bq_table_4_wf_4_bq_with_schema" {
   dataset_id = google_bigquery_dataset.bq_dataset_4_wf_4_bq_with_schema.dataset_id
   table_id = "bq_table_4_wf_4_bq_with_schema"
-  schema = jsonencode(jsondecode(file("bq_table1_schema.json")))
+  schema = jsonencode(jsondecode(file("schema/bq_table1_schema.json")))
 
 #Below example shows if you want to hardcode the schema in the file itself
 #  schema = <<EOF
