@@ -29,6 +29,6 @@ jobs:
 
             - name: 'initialize terraform'
               run: |
-                cd terraform
+                cd wf-4-bq-with-schema/terraform
                 terraform init
                 terraform apply -auto-approve
