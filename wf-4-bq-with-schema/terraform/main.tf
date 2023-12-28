@@ -6,7 +6,7 @@ provider "google" {
 #resource which stores the TF state file in the bucket
 terraform {
   backend "gcs" {
-    bucket = "tf_statebucket_4_side_pocs_bq_with_schema"
+    bucket = "tf_statebucket_4_side_pocs"
     prefix = "value"
   }
 }
