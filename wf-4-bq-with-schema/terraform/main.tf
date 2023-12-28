@@ -16,7 +16,7 @@ resource "google_bigquery_dataset" "bq_dataset_4_wf_4_bq_with_schema" {
     dataset_id = "bq_dataset_4_wf_4_bq_with_schema_id"
     project = "plated-hash-405319"
     location = "us-east1"
-    default_table_expiration_ms = 3600000
+    default_table_expiration_ms = 36000000
 
     labels = {
       environment="development_env"
