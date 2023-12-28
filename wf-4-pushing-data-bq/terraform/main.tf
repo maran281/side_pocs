@@ -6,7 +6,7 @@ provider "google" {
 terraform {
   backend "gcs" {
     bucket = "tf_statebucket_4_side_pocs"
-    value = "bushing_data_bq"
+    prefix = "bushing_data_bq"
   }
 }
 
