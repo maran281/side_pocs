@@ -1,0 +1,36 @@
+name: "Creating BQ using a schema file"
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'wf-4-pushing-data-bq/**'
+
+jobs:
+    deploy_my_bq:
+        runs-on: ubuntu-latest
+        permissions: 
+            contents: 'read'
+            id-token: 'write'
+
+        steps:
+            - name: checkout my code
+              uses: actions/checkout@v3
+
+            - id: 'auth'
+              name: 'authenticating my google project'
+              uses: 'google-github-actions/auth@v1'
+              with:
+                  token_format: 'access_token'
+                  workload_identity_provider: 'projects/582799354522/locations/global/workloadIdentityPools/mypoolid-6/providers/myproviderid-6'
+                  service_account: side-pocs-sa@plated-hash-405319.iam.gserviceaccount.com 
+
+            - name: 'setup my cloud sdk'
+              uses: 'google-github-actions/setup-gcloud@v1'
+
+            - name: 'initialize terraform'
+              run: |
+                cd wf-4-pushing-data-bq/terraform
+                terraform init
+                terraform apply -auto-approve
