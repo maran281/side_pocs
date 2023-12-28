@@ -1,9 +1,11 @@
 name: "Creating BQ using a schema file"
 
 on:
-    push: 
+    push:
         branches:
             - main
+        paths:
+            - 'wf-4-bq-with-schema/**'
 
 jobs:
     deploy_my_bq:
