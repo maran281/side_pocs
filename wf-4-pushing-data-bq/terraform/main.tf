@@ -10,6 +10,21 @@ terraform {
   }
 }
 
+#Bucket which stores the souce code for the cloud function
+resource "google_storage_bucket" "cf_sc_4_wf_4_pushing_data_bq" {
+  name = "bucket_sourcecode_4_pushing_data_bq"
+  location = "us-east1"
+}
+
+#resource which places the source code object for the cloud function from local to the bucket
+resource "google_storage_bucket_object" "cf_sourcecodeobject_4_pushing_data_bq" {
+  name = "main.zip"
+  bucket = google_storage_bucket.cf_sc_4_wf_4_pushing_data_bq.name
+  source = "../code/main.zip"
+
+  depends_on = [ google_storage_bucket.cf_sc_4_wf_4_pushing_data_bq ]
+}
+
 #Bigquery dataset where CF will publish the data
 resource "google_bigquery_dataset" "bq_dataset_4_wf_4_pushing_data_bq" {
     dataset_id = "bq_dataset_4_wf_4_pushing_data_bq"
@@ -36,4 +51,24 @@ resource "google_bigquery_table" "bq_table_4_wf_4_pushing_data_bq" {
   time_partitioning {
     type = "DAY"
   }
+}
+
+resource "google_cloudfunctions_function" "cf_4_wf_4_pushing_data_bq" {
+  name = "cf_4_wf_4_pushing_data_bq"
+  runtime = "python310"
+  source_archive_bucket = google_storage_bucket.cf_sc_4_wf_4_pushing_data_bq.name
+  source_archive_object = google_storage_bucket_object.cf_sourcecodeobject_4_pushing_data_bq.name
+
+  entry_point = "process_xml"
+  trigger_http = true
+  timeout = 60
+
+  service_account_email = "side-pocs-sa@plated-hash-405319.iam.gserviceaccount.com"
+
+}
+
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  cloud_function = google_cloudfunctions_function.cf_4_wf_4_pushing_data_bq.name
+  role = "roles/cloudfunctions.invoker"
+  member = "allUsers"
 }
